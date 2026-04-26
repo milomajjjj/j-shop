@@ -1,0 +1,253 @@
+:root {
+  --primary: #0d6efd;
+  --secondary: #131314;
+  --success: #198754;
+  --danger: #dc3545;
+
+  --bg: #f8f9fa;
+  --text: #212529;
+}
+
+body {
+  background: linear-gradient(135deg, #b3ccfc , #323131);
+  color: var(--text);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+* {
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+h1, h2, h3, h4, h5 {
+  letter-spacing: 0.5px;
+}
+
+p {
+  font-size: 0.95rem;
+}
+
+.carousel-item {
+  height: 400px; /* fixed height instead of max-height */
+}
+
+.carousel-item img {
+  height: 100%;
+  object-fit: cover; /* prevents stretching */
+}
+.custom-carousel {
+  width: 70%;
+  margin: auto;
+  padding: 20px;
+}
+
+.card {
+  border-radius: 12px;
+  transition: all 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.08);
+}
+
+.card-img-top {
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.product-img-main {
+  max-height: 400px;
+  object-fit: cover;
+}
+
+.btn {
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  transform: scale(1.03);
+}
+
+
+input, select, textarea {
+  border-radius: 8px !important;
+}
+
+.table {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.badge {
+  font-size: 0.8rem;
+  padding: 6px 10px;
+}
+
+/* Hover effect (huge difference) */
+.hover-card {
+  transition: all 0.25s ease;
+}
+
+.hover-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
+
+/* Dark mode */
+.dark-mode {
+  background: linear-gradient(135deg, #0f172a, #020617);
+}
+
+/* Cards */
+.dark-mode .card {
+  background-color: #1e1e1e;
+  color: #fff;
+}
+
+.dark-mode .card p {
+  color: #ccc;
+}
+
+/* Navbar */
+.dark-mode .navbar {
+  background-color: #1e1e1e !important;
+}
+/* Navbar links */
+.dark-mode .navbar .nav-link {
+  color: #f1f1f1 !important;
+}
+
+/* Navbar buttons */
+.dark-mode .navbar .btn {
+  color: #fff;
+  border-color: #555;
+}
+
+/* Outline buttons (like your toggle/login) */
+.dark-mode .navbar .btn-outline-dark {
+  color: #fff;
+  border-color: #aaa;
+}
+
+/* Hover effect */
+.dark-mode .navbar .btn-outline-dark:hover {
+  background-color: #fff;
+  color: #000;
+}
+/* Tables */
+.dark-mode .table {
+  color: #fff;
+}
+
+/* Inputs */
+.dark-mode input,
+.dark-mode select,
+.dark-mode textarea {
+  background-color: #2a2a2a;
+  color: #fff;
+  border: 1px solid #444;
+}
+
+/* Footer */
+.dark-mode footer {
+  background-color: #1e1e1e;
+}
+/* Fix Bootstrap text colors in dark mode */
+.dark-mode .text-dark {
+  color: #fff !important;
+}
+
+.dark-mode .text-muted {
+  color: #bbb !important;
+}
+
+.dark-mode .text-body {
+  color: #f1f1f1 !important;
+}
+
+.price-text {
+  color: #0d6efd;
+  font-weight: bold;
+}
+
+.dark-mode .price-text {
+  color: #66b2ff;
+}
+
+.titles {
+  color: #000308;
+  font-weight: bold;
+}
+
+.dark-mode .titles {
+  color: #66b2ff;
+}
+/* animation */
+.auth-bg {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0d6efd, #0a0f1f, #111);
+    background-size: 400% 400%;
+    animation: gradientMove 10s ease infinite;
+}
+
+.auth-bg::before,
+.auth-bg::after {
+    content: "";
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.45;
+    animation: floatOrb 8s ease-in-out infinite;
+}
+
+.auth-bg::before {
+    background: #00d4ff;
+    top: -80px;
+    left: -100px;
+}
+
+.auth-bg::after {
+    background: #0d6efd;
+    bottom: -80px;
+    right: -100px;
+    animation-delay: 3s;
+}
+
+@keyframes floatOrb {
+    0%,100% {
+        transform: translateY(0px) translateX(0px);
+    }
+    50% {
+        transform: translateY(40px) translateX(30px);
+    }
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* keep form above animation */
+.auth-bg form,
+.auth-bg .card {
+    position: relative;
+    z-index: 2;
+}
+
+
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.92) !important;
+}
+
+.dark-mode .navbar {
+  background: rgba(30,30,30,0.92) !important;
+}
