@@ -171,14 +171,13 @@ function categories(){
     return view('admin.categories', compact('categories'));
 }
 
-function storeCategory(Request $request){
-    $request->validate([
-        'name' => 'required|unique:categories'
+ function storeCategory(Request $request)
+{
+    $fields = $request->validate([
+        'name' => 'required|unique:categories,name'
     ]);
 
-    Category::create([
-        'name' => $request->name
-    ]);
+    Category::create($fields);
 
     return back();
 }
