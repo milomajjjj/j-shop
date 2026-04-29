@@ -12,8 +12,9 @@
 
 
 <div class="container mt-4">
+  <div class="carousel-wrapper">
   <div id="carouselExampleCaptions"
-       class="carousel slide rounded shadow overflow-hidden"
+       class="carousel slide "
        data-bs-ride="carousel">
 
     <div class="carousel-inner">
@@ -40,6 +41,7 @@
     </button>
 
   </div>
+  </div>
 </div>
 
 <!-- CATEGORY SECTION -->
@@ -52,9 +54,9 @@
       <a href="{{ route('products.filter', ['category' => $category->id]) }}"
          class="text-decoration-none">
 
-        <div class="card text-center shadow-sm p-3 h-100 hover-card">
-          <h6 class="fw-bold">{{ $category->name }}</h6>
-        </div>
+        <div class="category-card hover-card">
+  <h6 class="fw-bold">{{ $category->name }}</h6>
+</div>
 
       </a>
     </div>
@@ -121,34 +123,39 @@
 
 <!-- 🔥 PROMO BANNER -->
 <div class="container mt-5">
-  <div class="bg-dark text-white text-center p-5 rounded shadow">
-    <h3 class="fw-bold">Upgrade Your Tech Today</h3>
+  <div class="promo-banner">
+    <h3>Upgrade Your Tech Today</h3>
     <p>Best electronics at unbeatable prices</p>
-    <a href="{{ route('products.filter') }}" class="btn btn-light">
+    <a href="{{ route('products.filter') }}" class="btn">
       Browse Products
     </a>
   </div>
 </div>
 
 <!-- 🔥 WHY US -->
-<div class="container mt-5 text-center">
-  <div class="row">
-
-    <div class="col-md-4 titles">
-      <h5>🚚 Fast Delivery</h5>
-      <p class="titles">2–5 days shipping</p>
+<div class="container mt-5">
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="why-us-card text-center">
+        <span class="why-us-icon">🚚</span>
+        <h5>Fast Delivery</h5>
+        <p>2–5 days shipping</p>
+      </div>
     </div>
-
-    <div class="col-md-4 titles">
-      <h5>💳 Secure Payment</h5>
-      <p class="titles">100% safe checkout</p>
+    <div class="col-md-4">
+      <div class="why-us-card text-center">
+        <span class="why-us-icon">💳</span>
+        <h5>Secure Payment</h5>
+        <p>100% safe checkout</p>
+      </div>
     </div>
-
-    <div class="col-md-4 titles">
-      <h5>📞 24/7 Support</h5>
-      <p class="titles">We’re here anytime</p>
+    <div class="col-md-4">
+      <div class="why-us-card text-center">
+        <span class="why-us-icon">📞</span>
+        <h5>24/7 Support</h5>
+        <p>We're here anytime</p>
+      </div>
     </div>
-
   </div>
 </div>
 
