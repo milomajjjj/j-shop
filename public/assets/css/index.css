@@ -37,6 +37,7 @@
 }
 
 body {
+   background: transparent !important;
   background-color: var(--bg);
   background-image:
     radial-gradient(at 20% 10%, rgba(99,102,241,0.06) 0px, transparent 60%),
@@ -71,6 +72,8 @@ p {
   box-shadow: var(--shadow-sm);
   padding: 0.75rem 0;
 }
+
+
 
 /* ===== SECTION TITLES ===== */
 .titles {
@@ -156,39 +159,72 @@ p {
 /* ===== PRODUCT CARDS ===== */
 .card {
   border-radius: var(--radius);
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-  box-shadow: var(--shadow-sm);
+  /* REFINED: Slightly darker border to define the "glass" against the aurora */
+  border: 1px solid rgba(0, 31, 63, 0.08); 
+  /* REFINED: Lowered opacity slightly to let the Aurora background peek through more */
+  background: rgba(255, 255, 255, 0.65) !important;
+  backdrop-filter: blur(12px) saturate(180%); /* Added saturation for more "pop" */
+  
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  
+  /* REFINED: Softer, more "tech" shadow */
+  box-shadow: 0 10px 30px -10px rgba(0, 31, 63, 0.1); 
 }
 
 .card:hover,
 .hover-card:hover {
-  transform: translateY(-8px);
-  box-shadow: var(--shadow-hover);
-  border-color: var(--primary);
+  transform: translateY(-10px); /* Slightly more lift for impact */
+  /* REFINED: Shadow becomes more focused on hover */
+  box-shadow: 0 20px 40px -15px rgba(0, 31, 63, 0.25);
+  border-color: #001f3f; /* Tie in your Dark Blue shapes on hover */
 }
 
 .card-img-top {
   height: 220px;
-  object-fit: cover;
-  transition: transform 0.4s ease;
+  object-fit: contain; /* Changed to contain for electronics (don't cut off the products!) */
+  padding: 1.5rem; /* Add some space so the product doesn't touch the edges */
+  background: rgba(255, 255, 255, 0.3); /* Subtly different background for the image area */
+  transition: transform 0.5s ease;
 }
 
 .card:hover .card-img-top {
-  transform: scale(1.05);
+  transform: scale(1.08) rotate(2deg); /* Added a tiny rotation for a dynamic tech feel */
 }
 
 .card-body {
   padding: 1.25rem;
+  background: transparent;
 }
 
 .card-body h6 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 0.25rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #001f3f; /* Using the Dark Blue for titles */
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em; /* Slightly tighter for a modern look */
+}
+
+/* Optional: Add a "Glossy" shine effect over the card */
+.card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transform: skewX(-25deg);
+  transition: 0.7s;
+}
+
+.card:hover::after {
+  left: 125%;
 }
 
 /* ===== PRICE TEXT ===== */
@@ -522,50 +558,65 @@ input:focus, select:focus, textarea:focus {
   color: var(--text);
 }
 
-/* ===== ANIMATIONS ===== */
-@keyframes floatOrb {
-  0%, 100% { transform: translateY(0px) translateX(0px); }
-  50% { transform: translateY(40px) translateX(30px); }
+
+
+/* Wandering Animation (with rotation for spinning effect) */
+/* Aurora Background Layer */
+.aurora-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    background-color: #f4f7f9; /* A "cold" white/grey base */
+    overflow: hidden;
+    filter: blur(100px);
 }
 
-@keyframes gradientMove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+.aurora-blob {
+    position: absolute;
+    width: 60vw;
+    height: 60vw;
+    border-radius: 50%;
+    opacity: 0.3; /* Keeping it very subtle so products stand out */
+    animation: aurora-move 40s infinite alternate; /* Slower movement for a premium feel */
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* 1. Deep Tech Blue (Matches your particles) */
+.aurora-1 {
+    background: #001f3f; 
+    top: -15%;
+    left: -10%;
 }
 
-.card, .category-card, .why-us-card {
-  animation: fadeInUp 0.4s ease both;
+/* 2. Slate Grey (Professional/Hardware feel) */
+.aurora-2 {
+    background: #64748b; 
+    bottom: -10%;
+    right: -10%;
+    animation-delay: -5s;
 }
 
-/* ===== SCROLLBAR ===== */
-::-webkit-scrollbar {
-  width: 6px;
+/* 3. Steel Blue (Modern electronics vibe) */
+.aurora-3 {
+    background: #94a3b8; 
+    top: 30%;
+    left: 20%;
+    animation-delay: -12s;
 }
 
-::-webkit-scrollbar-track {
-  background: var(--bg);
+/* 4. Ice Silver (Clean & High-end) */
+.aurora-4 {
+    background: #cbd5e1; 
+    bottom: 10%;
+    left: 10%;
+    animation-delay: -18s;
 }
 
-::-webkit-scrollbar-thumb {
-  background: var(--primary);
-  border-radius: 99px;
-}
-
-/* ===== PRODUCT IMG MAIN ===== */
-.product-img-main {
-  max-height: 420px;
-  object-fit: cover;
-  border-radius: var(--radius);
+/* Slow, expensive-looking movement */
+@keyframes aurora-move {
+    0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+    50% { transform: translate(10%, 15%) scale(1.1) rotate(45deg); }
+    100% { transform: translate(-5%, 10%) scale(1) rotate(-45deg); }
 }

@@ -107,7 +107,3 @@
     </div>
   </div>
 </nav>
-
-git add .
-git commit -m "css changes , home page carousel and promo banner and navbar"
-git push

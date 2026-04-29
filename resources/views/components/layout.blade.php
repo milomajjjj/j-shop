@@ -17,6 +17,20 @@
 
   <body class="d-flex flex-column min-vh-100">
 
+
+<!-- The Background Layer -->
+<div class="aurora-bg">
+    <div class="aurora-blob aurora-1"></div>
+    <div class="aurora-blob aurora-2"></div>
+    <div class="aurora-blob aurora-3"></div>
+    <div class="aurora-blob aurora-4"></div>
+</div>
+
+<!-- The Top Layer (From our previous step) -->
+<div class="particle-container">
+    <div class="particle shape-circle p-small p1"></div>
+    <!-- ... all your other particles ... -->
+</div>
     <x-nav/>
 
     <main class="flex-fill">
