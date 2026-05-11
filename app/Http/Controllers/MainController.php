@@ -10,14 +10,34 @@ use Illuminate\Support\Facades\Http;
 
 class MainController extends Controller
 {
+  public function landing()
+  {
+      return view('landing');
+  }
+
     public function home()
 {
     $carousel = Carousel::all();
     $products = Product::where('is_active', true)
+
     ->whereHas('category', function($q){
+
         $q->where('is_active', true);
+
     })
-      ->paginate(8);
+
+    ->where(function($query){
+
+        $query->where('best_seller', true)
+              ->orWhereNotNull('sale_percent');
+
+    })
+
+    ->orderByDesc('best_seller')
+
+    ->latest()
+
+    ->paginate(8);
     $categories = Category::where('is_active', true)->get();  
 
 
@@ -33,11 +53,23 @@ public function product(Product $product)
     }
 
     $recommended = $product->category->products()
-        ->where('is_active', true)
-        ->whereKeyNot($product->id)
-        ->inRandomOrder()
-        ->take(4)
-        ->get();
+
+    ->where('is_active', true)
+
+    ->whereKeyNot($product->id)
+
+    ->where(function($query){
+
+        $query->where('best_seller', true)
+              ->orWhereNotNull('sale_percent');
+
+    })
+
+    ->inRandomOrder()
+
+    ->take(4)
+
+    ->get();
 
     return view('product', compact('product', 'recommended'));
 }

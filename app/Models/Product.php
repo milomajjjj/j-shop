@@ -13,7 +13,9 @@ class Product extends Model
     'image',
     'category_id',
     'stock',
-    'is_active'
+    'is_active',
+    'sale_percent',
+    'best_seller'
 ];
 
 public function category(){

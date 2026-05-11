@@ -1,77 +1,110 @@
 <x-layout>
 
-  <main class="auth-bg d-flex justify-content-center align-items-center" style="min-height:100vh;">
+<section class="auth-page-wrapper">
 
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <!-- GLOW -->
+    <div class="auth-glow auth-glow-1"></div>
+    <div class="auth-glow auth-glow-2"></div>
 
-  <div class="card shadow-sm p-4" style="width: 100%; max-width: 400px;">
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
 
-    <!-- Title -->
-    <h3 class="text-center text-primary fw-bold mb-4">
-      Sign In
-    </h3>
+        <!-- CARD -->
+        <div class="premium-auth-card">
 
-    <!-- Error -->
-    @if(session('error'))
-      <div class="alert alert-danger text-center">
-        {{ session('error') }}
-      </div>
-    @endif
+            <!-- TITLE -->
+            <h1 class="auth-main-title">
+                Welcome back
+            </h1>
 
-    <form action="{{ route('loginAction') }}" method="POST">
-      @csrf
+            <p class="auth-subtitle">
+                Log in to your JShop account.
+            </p>
 
-      <!-- Email -->
-      <div class="mb-3">
-        <label class="form-label">Email address</label>
-        <input
-          type="email"
-          class="form-control"
-          name="email"
-          value="{{ old('email') }}"
-          required
-        >
-      </div>
+            <!-- ERROR -->
+            @if(session('error'))
 
-      <!-- Password -->
-      <div class="mb-3">
-        <label class="form-label">Password</label>
-        <input
-          type="password"
-          class="form-control"
-          name="password"
-          required
-        >
-      </div>
+                <div class="alert alert-danger text-center mb-4">
+                    {{ session('error') }}
+                </div>
 
-      <!-- Remember -->
-      <div class="form-check mb-3">
-        <input type="checkbox" class="form-check-input" id="remember">
-        <label class="form-check-label" for="remember">
-          Remember me
-        </label>
-      </div>
-      <div class="text-end mb-3">
-  <a href="{{ route('password.request') }}" class="small">
-    Forgot Password?
-  </a>
-</div>
+            @endif
 
-      <!-- Button -->
-      <button type="submit" class="btn btn-primary w-100">
-        Sign In
-      </button>
+            <!-- FORM -->
+            <form action="{{ route('loginAction') }}" method="POST">
 
-      <!-- Link -->
-      <p class="text-center mt-3 small text-muted">
-        Don't have an account?
-        <a href="{{ route('register') }}">Sign up</a>
-      </p>
+                @csrf
 
-    </form>
+                <!-- EMAIL -->
+                <div class="mb-4">
 
-  </div>
+                    <label class="premium-label mb-2">
+                        Email
+                    </label>
 
-</div>
-  </main>
+                    <input
+                        type="email"
+                        name="email"
+                        value="{{ old('email') }}"
+                        class="form-control auth-input"
+                        placeholder="you@example.com"
+                        required
+                    >
+
+                </div>
+
+                <!-- PASSWORD -->
+                <div class="mb-3">
+
+                    <label class="premium-label mb-2">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        name="password"
+                        class="form-control auth-input"
+                        placeholder="••••••••"
+                        required
+                    >
+
+                </div>
+
+                <!-- FORGOT -->
+                <div class="text-end mb-4">
+
+                    <a href="{{ route('password.request') }}"
+                       class="forgot-link">
+
+                        Forgot Password?
+
+                    </a>
+
+                </div>
+
+                <!-- BUTTON -->
+                <button type="submit" class="gradient-btn">
+
+                    Log in
+
+                </button>
+
+                <!-- REGISTER -->
+                <p class="auth-bottom-text">
+
+                    New here?
+
+                    <a href="{{ route('register') }}">
+                        Create an account
+                    </a>
+
+                </p>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
 </x-layout>

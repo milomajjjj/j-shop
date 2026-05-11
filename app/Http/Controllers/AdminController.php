@@ -104,29 +104,51 @@ function deleteCarousel(Carousel $carousel){
 }
 
      function adminProducts(){
-    $products = Product::all();
+    $products = Product::latest()->paginate(5);
     $categories = Category::where('is_active', true)->get();
     return view('admin.products', compact('products', 'categories'));
 }
 
 function storeProduct(Request $request){
+
     $fields = $request->validate([
+
         'name' => 'required',
+
         'description' => 'required',
+
         'price' => 'required|numeric',
+
         'image' => 'required|image',
+
         'category_id' => 'required|exists:categories,id',
-        'stock' => 'required|integer|min:0'
+
+        'stock' => 'required|integer|min:0',
+
+        'sale_percent' => 'nullable|integer|min:0|max:99',
+
+        'best_seller' => 'nullable|boolean'
+
     ]);
 
     $imageName = Str::uuid() . '.' . $request->image->extension();
-    $request->image->move(public_path('assets/images'), $imageName);
+
+    $request->image->move(
+        public_path('assets/images'),
+        $imageName
+    );
 
     $fields['image'] = $imageName;
 
+    $fields['best_seller'] =
+    $request->has('best_seller');
+
     Product::create($fields);
 
-    return back()->with('success', 'Product added successfully.');
+    return back()->with(
+        'success',
+        'Product added successfully.'
+    );
 }
 
 function toggleProduct(Product $product){
@@ -150,7 +172,9 @@ function updateProduct(Request $request, Product $product){
         'price' => 'required|numeric',
         'stock' => 'required|integer|min:0',
         'category_id' => 'required|exists:categories,id',
-        'image' => 'nullable|image'
+        'image' => 'nullable|image',
+        'sale_percent' => 'nullable|integer|min:0|max:99',
+        'best_seller' => 'nullable|boolean'
     ]);
 
     // 🖼️ handle new image (optional)
@@ -160,6 +184,8 @@ function updateProduct(Request $request, Product $product){
 
         $fields['image'] = $imageName;
     }
+    $fields['best_seller'] = 
+    $request->has('best_seller');
 
     $product->update($fields);
 
@@ -173,13 +199,19 @@ function categories(){
 
  function storeCategory(Request $request)
 {
-    $fields = $request->validate([
-        'name' => 'required|unique:categories,name'
-    ]);
+    $imageName = null;
 
-    Category::create($fields);
+if($request->hasFile('image')){
 
-    return back();
+    $imageName = time() . '.' . $request->image->extension();
+
+    $request->image->move(public_path('assets/images'), $imageName);
+}
+
+Category::create([
+    'name' => $request->name,
+    'image' => $imageName
+]);
 }
 
 function toggleCategory(Category $category){
@@ -207,6 +239,24 @@ function updateOrderStatus(Request $request, Order $order)
     $order->update($fields);
 
     return back()->with('success', 'Order status updated.');
+}
+
+public function adminSearch(Request $request)
+{
+    $categories = Category::where('is_active', true)->get();
+
+    $products = Product::query();
+
+    // SEARCH
+    if($request->search){
+
+        $products->where('name', 'LIKE', '%' . $request->search . '%');
+
+    }
+
+    $products = $products->latest()->paginate(2);
+
+    return view('admin.products', compact('products', 'categories'));
 }
 
 }

@@ -1,65 +1,155 @@
 <x-layout>
 
-<div class="container mt-5">
+<section class="container py-5">
 
-  <!-- Title -->
-  <h2 class="text-center fw-bold mb-5">Admin Dashboard</h2>
+    <!-- HEADER -->
+    <div class="text-center mb-5">
 
-  <!-- Dashboard Cards -->
-  <div class="row g-4">
+        <h1 class="admin-main-title">
+            Admin Dashboard
+        </h1>
 
-    <!-- Users -->
-    <div class="col-md-6 col-lg-4">
-      <a href="{{ route('admin.users') }}" class="text-decoration-none">
-        <div class="card shadow-sm border-0 h-100 text-center p-4">
-          <h5 class="fw-bold">Users</h5>
-          <p class="text-muted small">Manage all registered users</p>
-        </div>
-      </a>
+        <p class="section-subtitle">
+            Manage your ecommerce platform
+        </p>
+
     </div>
 
-    <!-- Carousel -->
-    <div class="col-md-6 col-lg-4">
-      <a href="{{ route('admin.carousel') }}" class="text-decoration-none">
-        <div class="card shadow-sm border-0 h-100 text-center p-4">
-          <h5 class="fw-bold">Carousel</h5>
-          <p class="text-muted small">Manage homepage slides</p>
+    <!-- DASHBOARD GRID -->
+    <div class="row g-4">
+
+        <!-- USERS -->
+        <div class="col-md-6 col-xl-4">
+
+            <a href="{{ route('admin.users') }}"
+               class="text-decoration-none">
+
+                <div class="admin-dashboard-card users-card">
+
+                    <div class="admin-card-icon">
+                        👥
+                    </div>
+
+                    <h3 class="admin-card-title">
+                        Users
+                    </h3>
+
+                    <p class="admin-card-description">
+                        Manage all registered users
+                    </p>
+
+                </div>
+
+            </a>
+
         </div>
-      </a>
+
+        <!-- CAROUSEL -->
+        <div class="col-md-6 col-xl-4">
+
+            <a href="{{ route('admin.carousel') }}"
+               class="text-decoration-none">
+
+                <div class="admin-dashboard-card carousel-card">
+
+                    <div class="admin-card-icon">
+                        🎞️
+                    </div>
+
+                    <h3 class="admin-card-title">
+                        Carousel
+                    </h3>
+
+                    <p class="admin-card-description">
+                        Manage homepage slides
+                    </p>
+
+                </div>
+
+            </a>
+
+        </div>
+
+        <!-- PRODUCTS -->
+        <div class="col-md-6 col-xl-4">
+
+            <a href="{{ route('admin.products') }}"
+               class="text-decoration-none">
+
+                <div class="admin-dashboard-card products-card">
+
+                    <div class="admin-card-icon">
+                        📦
+                    </div>
+
+                    <h3 class="admin-card-title">
+                        Products
+                    </h3>
+
+                    <p class="admin-card-description">
+                        Add, edit, and manage products
+                    </p>
+
+                </div>
+
+            </a>
+
+        </div>
+
+        <!-- CATEGORIES -->
+        <div class="col-md-6 col-xl-4">
+
+            <a href="{{ route('admin.categories') }}"
+               class="text-decoration-none">
+
+                <div class="admin-dashboard-card categories-card">
+
+                    <div class="admin-card-icon">
+                        🗂️
+                    </div>
+
+                    <h3 class="admin-card-title">
+                        Categories
+                    </h3>
+
+                    <p class="admin-card-description">
+                        Organize your products
+                    </p>
+
+                </div>
+
+            </a>
+
+        </div>
+
+        <!-- ORDERS -->
+        <div class="col-md-6 col-xl-4">
+
+            <a href="{{ route('admin.orders') }}"
+               class="text-decoration-none">
+
+                <div class="admin-dashboard-card orders-card">
+
+                    <div class="admin-card-icon">
+                        🛒
+                    </div>
+
+                    <h3 class="admin-card-title">
+                        Orders
+                    </h3>
+
+                    <p class="admin-card-description">
+                        Track and manage customer orders
+                    </p>
+
+                </div>
+
+            </a>
+
+        </div>
+
     </div>
 
-    <!-- Products -->
-    <div class="col-md-6 col-lg-4">
-      <a href="{{ route('admin.products') }}" class="text-decoration-none">
-        <div class="card shadow-sm border-0 h-100 text-center p-4">
-          <h5 class="fw-bold">Products</h5>
-          <p class="text-muted small">Add, edit, and manage products</p>
-        </div>
-      </a>
-    </div>
-
-    <!-- Categories -->
-    <div class="col-md-6 col-lg-4">
-      <a href="{{ route('admin.categories') }}" class="text-decoration-none">
-        <div class="card shadow-sm border-0 h-100 text-center p-4">
-          <h5 class="fw-bold">Categories</h5>
-          <p class="text-muted small">Organize your products</p>
-        </div>
-      </a>
-    </div>
-
-    <!-- Orders -->
-    <div class="col-md-6 col-lg-4">
-      <a href="{{ route('admin.orders') }}" class="text-decoration-none">
-        <div class="card shadow-sm border-0 h-100 text-center p-4">
-          <h5 class="fw-bold">Orders</h5>
-          <p class="text-muted small">Track and manage orders</p>
-        </div>
-      </a>
-    </div>
-
-  </div>
-
-</div>
+</section>
 
 </x-layout>

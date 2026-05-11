@@ -1,104 +1,203 @@
 <x-layout>
 
-<div class="container mt-5">
+<section class="container py-5">
 
-  @if(session('success'))
-<div class="container mt-3">
-  <div class="alert alert-success text-center fw-bold">
-    {{ session('success') }}
-  </div>
-</div>
-@endif
+    <!-- SUCCESS -->
+    @if(session('success'))
 
-  <!-- Title -->
-  <h2 class="fw-bold text-center mb-4">My Orders</h2>
+    <div class="container mb-4">
 
-  @if($orders->isEmpty())
+        <div class="premium-alert-success">
 
-    <!-- Empty state -->
-    <div class="text-center mt-5">
-      <h5 class="text-muted">You have no orders yet 📦</h5>
-      <a href="{{ route('home') }}" class="btn btn-primary mt-3">
-        Start Shopping
-      </a>
+            <span class="premium-alert-icon">
+                ✓
+            </span>
+
+            <span>
+                {{ session('success') }}
+            </span>
+
+        </div>
+
     </div>
 
-  @else
+    @endif
+
+    <!-- HEADER -->
+    <div class="text-center mb-5">
+
+        <h1 class="admin-main-title">
+            My Orders
+        </h1>
+
+        <p class="section-subtitle">
+            Track all your purchases
+        </p>
+
+    </div>
+
+    @if($orders->isEmpty())
+
+    <!-- EMPTY -->
+    <div class="empty-orders-wrapper text-center">
+
+        <div class="empty-orders-icon">
+            📦
+        </div>
+
+        <h2 class="mb-3">
+            No Orders Yet
+        </h2>
+
+        <p class="section-subtitle mb-4">
+            Start shopping to see your orders here.
+        </p>
+
+        <a href="{{ route('products.filter') }}"
+           class="gradient-btn">
+
+            Start Shopping
+
+        </a>
+
+    </div>
+
+    @else
 
     @foreach($orders as $order)
 
-    <div class="card shadow-sm mb-4 border-0">
+    <!-- ORDER CARD -->
+    <div class="premium-order-card mb-5">
 
-      <!-- Header -->
-      <div class="card-header bg-white d-flex justify-content-between align-items-center flex-wrap">
+        <!-- HEADER -->
+        <div class="premium-order-header">
 
-        <div >
-          <strong class="titles">Order #{{ $order->id }}</strong>
+            <div class="d-flex align-items-center gap-4 flex-wrap">
 
-          <span class="ms-3 text-muted">
-            {{ $order->created_at->format('Y-m-d') }}
-          </span>
+                <div>
+
+                    <p class="order-label">
+                        ORDER
+                    </p>
+
+                    <h4 class="order-value">
+                        #{{ $order->id }}
+                    </h4>
+
+                </div>
+
+                <div>
+
+                    <p class="order-label">
+                        DATE
+                    </p>
+
+                    <h4 class="order-value">
+                        {{ $order->created_at->format('Y-m-d') }}
+                    </h4>
+
+                </div>
+
+            </div>
+
+            <!-- STATUS -->
+            <span class="
+                premium-status-badge
+
+                @if($order->status == 'pending')
+                    pending-status
+                @elseif($order->status == 'shipped')
+                    shipped-status
+                @elseif($order->status == 'delivered')
+                    delivered-status
+                @elseif($order->status == 'cancelled')
+                    cancelled-status
+                @endif
+            ">
+
+                {{ ucfirst($order->status) }}
+
+            </span>
+
         </div>
 
-        <!-- Status -->
-        <span class="badge 
-          @if($order->status == 'pending') bg-warning text-dark
-          @elseif($order->status == 'shipped') bg-info text-dark
-          @elseif($order->status == 'delivered') bg-success
-          @elseif($order->status == 'cancelled') bg-danger
-          @endif
-        ">
-          {{ ucfirst($order->status) }}
-        </span>
-
-      </div>
-
-      <!-- Body -->
-      <div class="card-body">
-
+        <!-- TABLE -->
         <div class="table-responsive">
-          <table class="table table-hover align-middle">
 
-            <thead class="table-light">
-              <tr>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Qty</th>
-                <th>Total</th>
-              </tr>
-            </thead>
+            <table class="table premium-orders-table align-middle">
 
-            <tbody>
-              @foreach($order->items as $item)
-              <tr>
-                <td class="fw-bold">{{ $item->product->name }}</td>
-                <td>${{ $item->price }}</td>
-                <td>{{ $item->quantity }}</td>
-                <td class="fw-bold">
-                  ${{ $item->price * $item->quantity }}
-                </td>
-              </tr>
-              @endforeach
-            </tbody>
+                <thead>
 
-          </table>
+                    <tr>
+
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach($order->items as $item)
+
+                    <tr>
+
+                        <td class="fw-bold">
+
+                            {{ $item->product->name }}
+
+                        </td>
+
+                        <td>
+
+                            ${{ $item->price }}
+
+                        </td>
+
+                        <td>
+
+                            {{ $item->quantity }}
+
+                        </td>
+
+                        <td class="fw-bold">
+
+                            ${{ $item->price * $item->quantity }}
+
+                        </td>
+
+                    </tr>
+
+                    @endforeach
+
+                </tbody>
+
+            </table>
+
         </div>
 
-        <!-- Total -->
-        <div class="text-end">
-          <h5 class="fw-bold text-primary">
-            Total: ${{ $order->total }}
-          </h5>
-        </div>
+        <!-- TOTAL -->
+        <div class="premium-order-total text-end">
 
-      </div>
+            <span class="total-label">
+                Order Total
+            </span>
+
+            <h2 class="total-price">
+                ${{ $order->total }}
+            </h2>
+
+        </div>
 
     </div>
 
     @endforeach
 
-  @endif
+    @endif
 
-</div>
+</section>
 
 </x-layout>

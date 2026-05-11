@@ -1,125 +1,241 @@
 <x-layout>
 
-<div class="container mt-5">
+<section class="container py-5">
 
-  <h2 class="fw-bold mb-4 text-center">Your Cart</h2>
+    <!-- TITLE -->
+    <div class="text-center mb-5">
 
-  @if(session('error'))
-    <div class="alert alert-danger text-center">
-      {{ session('error') }}
+        <h1 class="section-title">
+            Your Cart
+        </h1>
+
+        <p class="section-subtitle">
+            Review your selected products
+        </p>
+
     </div>
-  @endif
 
-  @if(session('cart') && count(session('cart')) > 0)
+    <!-- ERROR -->
+    @if(session('error'))
 
-  <div class="card shadow-sm p-3">
+        <div class="alert alert-danger text-center mb-4">
+            {{ session('error') }}
+        </div>
 
-    <div class="table-responsive">
-      <table class="table table-hover align-middle">
+    @endif
 
-        <thead class="table-light">
-          <tr>
-            <th>Product</th>
-            <th>Price</th>
-            <th>Qty</th>
-            <th>Total</th>
-            <th></th>
-          </tr>
-        </thead>
+    @if(session('cart') && count(session('cart')) > 0)
 
-        <tbody>
+    <div class="premium-cart-wrapper">
 
-          @php $grandTotal = 0; @endphp
+        @php $grandTotal = 0; @endphp
 
-          @foreach(session('cart') as $id => $item)
-          @php
-            $total = $item['price'] * $item['quantity'];
-            $grandTotal += $total;
-          @endphp
+        @foreach(session('cart') as $id => $item)
 
-          <tr>
+        @php
 
-            <!-- Product -->
-            <td class="d-flex align-items-center gap-2">
-              <img src="/assets/images/{{$item['image']}}" 
-                   style="width:60px; height:60px; object-fit:cover;" 
-                   class="rounded">
-              <span class="fw-bold">{{$item['name']}}</span>
-            </td>
+    $finalPrice = isset($item['sale_percent'])
+        ? $item['price'] -
+          ($item['price'] * $item['sale_percent'] / 100)
+        : $item['price'];
 
-            <!-- Price -->
-            <td>${{$item['price']}}</td>
+    $total = $finalPrice * $item['quantity'];
 
-            <!-- Quantity -->
-            <td>
-              <div class="d-flex align-items-center gap-2">
+    $grandTotal += $total;
 
-                <form action="{{ route('cart.decrease', $id) }}" method="POST">
-                  @csrf
-                  <button class="btn btn-sm btn-outline-secondary">-</button>
-                </form>
+@endphp
 
-                <span class="fw-bold">{{$item['quantity']}}</span>
+        <!-- ITEM -->
+        <div class="cart-item">
 
-                <form action="{{ route('cart.increase', $id) }}" method="POST">
-                  @csrf
-                  <button class="btn btn-sm btn-outline-secondary">+</button>
-                </form>
+            <div class="row align-items-center g-4">
 
-              </div>
-            </td>
+                <!-- IMAGE -->
+                <div class="col-lg-2 col-md-3 col-4">
 
-            <!-- Total -->
-            <td class="fw-bold">${{$total}}</td>
+                    <div class="cart-image-wrapper">
 
-            <!-- Remove -->
-            <td>
-              <form action="{{ route('cart.remove', $id) }}" method="POST">
+                       @if(isset($item['sale_percent']) && $item['sale_percent'])
+
+    <div class="sale-product-badge">
+
+        -{{$item['sale_percent']}}%
+
+    </div>
+
+@endif
+
+<img
+    src="/assets/images/{{$item['image']}}"
+    class="cart-image"
+>
+
+                    </div>
+
+                </div>
+
+                <!-- INFO -->
+                <div class="col-lg-3 col-md-9 col-8">
+
+                    <h4 class="cart-product-title">
+                        {{$item['name']}}
+                    </h4>
+
+                    @if(isset($item['sale_percent']) && $item['sale_percent'])
+
+    <div class="d-flex align-items-center gap-2 flex-wrap">
+
+        <span class="old-price">
+
+            ${{$item['price']}}
+
+        </span>
+
+        <span class="sale-price">
+
+            ${{
+                number_format($finalPrice, 2)
+            }}
+
+        </span>
+
+    </div>
+
+@else
+
+    <p class="cart-price">
+
+        ${{$item['price']}}
+
+    </p>
+
+@endif
+
+                </div>
+
+                <!-- QUANTITY -->
+                <div class="col-lg-3">
+
+                    <div class="quantity-controls">
+
+                        <!-- DECREASE -->
+                        <form action="{{ route('cart.decrease', $id) }}" method="POST">
+                            @csrf
+
+                            <button class="quantity-btn">
+                                −
+                            </button>
+                        </form>
+
+                        <span class="quantity-number">
+                            {{$item['quantity']}}
+                        </span>
+
+                        <!-- INCREASE -->
+                        <form action="{{ route('cart.increase', $id) }}" method="POST">
+                            @csrf
+
+                            <button class="quantity-btn">
+                                +
+                            </button>
+                        </form>
+
+                    </div>
+
+                </div>
+
+                <!-- TOTAL -->
+                <div class="col-lg-2">
+
+                    <div class="cart-total">
+                        ${{$total}}
+                    </div>
+
+                </div>
+
+                <!-- REMOVE -->
+                <div class="col-lg-2 text-lg-end">
+
+                    <form action="{{ route('cart.remove', $id) }}" method="POST">
+
+                        @csrf
+
+                        <button class="remove-cart-btn">
+                            Remove
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        @endforeach
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="cart-summary mt-5">
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-4">
+
+            <div>
+
+                <p class="summary-label">
+                    Grand Total
+                </p>
+
+                <h2 class="summary-price">
+                    ${{$grandTotal}}
+                </h2>
+
+            </div>
+
+            <!-- CHECKOUT -->
+            <form action="{{ route('checkout') }}" method="POST">
+
                 @csrf
-                <button class="btn btn-sm btn-danger">
-                  Remove
+
+                <button class="gradient-btn">
+                    Proceed To Checkout
                 </button>
-              </form>
-            </td>
 
-          </tr>
-          @endforeach
+            </form>
 
-        </tbody>
+        </div>
 
-      </table>
     </div>
 
-  </div>
+    @else
 
-  <!-- Total + Checkout -->
-  <div class="d-flex justify-content-between align-items-center mt-4 flex-wrap">
+    <!-- EMPTY -->
+    <div class="empty-cart-wrapper text-center">
 
-    <h4 class="fw-bold text-primary">
-      Total: ${{$grandTotal}}
-    </h4>
+        <div class="empty-cart-icon">
+            🛒
+        </div>
 
-    <form action="{{ route('checkout') }}" method="POST">
-      @csrf
-      <button class="btn btn-success px-4">
-        Proceed to Checkout
-      </button>
-    </form>
+        <h2 class="mb-3">
+            Your Cart Is Empty
+        </h2>
 
-  </div>
+        <p class="section-subtitle mb-4">
+            Looks like you haven’t added anything yet.
+        </p>
 
-  @else
+        <a href="{{ route('products.filter') }}"
+           class="gradient-btn">
 
-  <!-- Empty Cart -->
-  <div class="text-center mt-5">
-    <h4 class="titles">Your cart is empty 🛒</h4>
-    <a href="{{ route('home') }}" class="btn btn-primary mt-3">
-      Continue Shopping
-    </a>
-  </div>
+            Continue Shopping
 
-  @endif
+        </a>
 
-</div>
+    </div>
+
+    @endif
+
+</section>
 
 </x-layout>

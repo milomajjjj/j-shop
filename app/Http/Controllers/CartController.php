@@ -32,6 +32,8 @@ class CartController extends Controller
             'price'    => $product->price,
             'image'    => $product->image,
             'quantity' => $currentQty + 1,
+            'sale_percent' => $product->sale_percent,
+            
         ];
 
         session()->put('cart', $cart);

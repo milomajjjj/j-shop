@@ -1,24 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>J Shop</title>
 
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <link href="{{ asset('assets/css/index.css') }}" rel="stylesheet" />
-  </head>
+</head>
 
-  <body class="d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-100">
 
-
-<!-- The Background Layer -->
+<!-- PREMIUM BACKGROUND -->
 <div class="aurora-bg">
     <div class="aurora-blob aurora-1"></div>
     <div class="aurora-blob aurora-2"></div>
@@ -26,18 +24,13 @@
     <div class="aurora-blob aurora-4"></div>
 </div>
 
-<!-- The Top Layer (From our previous step) -->
-<div class="particle-container">
-    <div class="particle shape-circle p-small p1"></div>
-    <!-- ... all your other particles ... -->
-</div>
-    <x-nav/>
+<x-nav/>
 
-    <main class="flex-fill">
-      {{$slot}}
-    </main>
+<main class="flex-fill position-relative">
+    {{$slot}}
+</main>
 
-    <x-footer/>
+<x-footer/>
 
     <!-- ================= CHATBOT ================= -->
 

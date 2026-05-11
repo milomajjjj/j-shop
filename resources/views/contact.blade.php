@@ -1,21 +1,66 @@
 <x-layout>
 
-<div class="container mt-5 text-center">
+<section class="container py-5">
 
-  <h2 class="fw-bold mb-4">Contact Us</h2>
+    <!-- HEADER -->
+    <div class="text-center mb-5">
 
-  <div class="card shadow-sm p-4" style="max-width: 400px; margin:auto;">
+        <h1 class="admin-main-title">
+            Contact Us
+        </h1>
 
-    <h5 class="mb-3">📞 Phone</h5>
-    <p class="fw-bold">+961 70 580 108</p>
+        <p class="section-subtitle">
+            We're here to help anytime
+        </p>
 
-    <hr>
+    </div>
 
-    <h5 class="mb-3">📧 Email</h5>
-    <p>support@jshop.com</p>
+    <!-- CONTACT CARD -->
+    <div class="contact-premium-wrapper">
 
-  </div>
+        <div class="contact-premium-card">
 
-</div>
+            <!-- PHONE -->
+            <div class="contact-item">
+
+                <div class="contact-icon">
+                    📞
+                </div>
+
+                <h4 class="contact-title">
+                    Phone
+                </h4>
+
+                <p class="contact-text">
+                    +961 70 580 108
+                </p>
+
+            </div>
+
+            <!-- DIVIDER -->
+            <div class="contact-divider"></div>
+
+            <!-- EMAIL -->
+            <div class="contact-item">
+
+                <div class="contact-icon">
+                    📧
+                </div>
+
+                <h4 class="contact-title">
+                    Email
+                </h4>
+
+                <p class="contact-text">
+                    support@jshop.com
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 
 </x-layout>

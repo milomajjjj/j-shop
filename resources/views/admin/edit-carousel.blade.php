@@ -1,44 +1,105 @@
 <x-layout>
 
-<div class="container mt-5" style="max-width: 600px;">
+<section class="container py-5" style="max-width: 700px;">
 
-  <h3 class="mb-4 text-center fw-bold">Edit Slide</h3>
+    <!-- HEADER -->
+    <div class="text-center mb-5">
 
-  <div class="card shadow-sm p-4">
+        <h1 class="section-title">
+            Edit Slide
+        </h1>
 
-    <form action="{{ route('admin.carousel.update', $carousel->id) }}" method="POST" enctype="multipart/form-data">
-      @csrf
+        <p class="section-subtitle">
+            Update carousel content and image
+        </p>
 
-      <div class="mb-3">
-        <label class="form-label">Title</label>
-        <input type="text" name="title" value="{{ $carousel->title }}" class="form-control">
-      </div>
+    </div>
 
-      <div class="mb-3">
-        <label class="form-label">Description</label>
-        <input type="text" name="description" value="{{ $carousel->description }}" class="form-control">
-      </div>
+    <!-- CARD -->
+    <div class="carousel-admin-card">
 
-      <!-- Current Image -->
-      <div class="mb-3 text-center">
-        <img src="/assets/images/{{$carousel->pic}}" 
-             class="img-fluid rounded"
-             style="max-height:150px;">
-      </div>
+        <form action="{{ route('admin.carousel.update', $carousel->id) }}"
+              method="POST"
+              enctype="multipart/form-data">
 
-      <div class="mb-3">
-        <label class="form-label">Change Image</label>
-        <input type="file" name="pic" class="form-control">
-      </div>
+            @csrf
 
-      <button class="btn btn-primary w-100">
-        Update Slide
-      </button>
+            <!-- TITLE -->
+            <div class="mb-4">
 
-    </form>
+                <label class="form-label premium-label">
+                    Title
+                </label>
 
-  </div>
+                <input
+                    type="text"
+                    name="title"
+                    value="{{ $carousel->title }}"
+                    class="form-control premium-input"
+                >
 
-</div>
+            </div>
+
+            <!-- DESCRIPTION -->
+            <div class="mb-4">
+
+                <label class="form-label premium-label">
+                    Description
+                </label>
+
+                <input
+                    type="text"
+                    name="description"
+                    value="{{ $carousel->description }}"
+                    class="form-control premium-input"
+                >
+
+            </div>
+
+            <!-- CURRENT IMAGE -->
+            <div class="mb-4 text-center">
+
+                <p class="premium-label mb-3">
+                    Current Image
+                </p>
+
+                <div class="edit-carousel-image-wrapper">
+
+                    <img
+                        src="/assets/images/{{$carousel->pic}}"
+                        class="edit-carousel-image"
+                    >
+
+                </div>
+
+            </div>
+
+            <!-- CHANGE IMAGE -->
+            <div class="mb-4">
+
+                <label class="form-label premium-label">
+                    Change Image
+                </label>
+
+                <input
+                    type="file"
+                    name="pic"
+                    class="form-control premium-input"
+                >
+
+            </div>
+
+            <!-- BUTTON -->
+            <button class="gradient-btn w-100">
+
+                Update Slide
+
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
 
 </x-layout>

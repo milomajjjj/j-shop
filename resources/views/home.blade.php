@@ -1,162 +1,343 @@
 <x-layout>
-
-<!-- ✅ Success Message -->
 @if(session('success'))
-<div class="container mt-3">
-  <div class="alert alert-success text-center fw-bold">
-    {{ session('success') }}
-  </div>
-</div>
-@endif
-<!-- CAROUSEL SECTION -->
-
 
 <div class="container mt-4">
-  <div class="carousel-wrapper">
-  <div id="carouselExampleCaptions"
-       class="carousel slide "
-       data-bs-ride="carousel">
 
-    <div class="carousel-inner">
-      @foreach($carousel as $image)
-      <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
-        <img src="/assets/images/{{$image->pic}}"
-             class="d-block w-100"
-             style="height: 420px; object-fit: cover;">
+    <div class="premium-alert-success">
 
-    
-       
-      </div>
-      @endforeach
+        <span class="premium-alert-icon">
+            ✓
+        </span>
+
+        <span>
+            {{ session('success') }}
+        </span>
+
     </div>
 
-    <button class="carousel-control-prev" type="button"
-            data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon"></span>
-    </button>
-
-    <button class="carousel-control-next" type="button"
-            data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-      <span class="carousel-control-next-icon"></span>
-    </button>
-
-  </div>
-  </div>
 </div>
+
+@endif
+
+<!-- HERO SECTION -->
+<section class="hero-section">
+
+    <div class="container">
+
+        <div class="hero-card">
+
+            <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+
+                <div class="carousel-inner">
+
+                    @foreach($carousel as $image)
+
+                    <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+
+                        <img src="/assets/images/{{$image->pic}}" class="d-block w-100 hero-image">
+
+                        <div class="hero-overlay">
+
+                            <div class="hero-content">
+
+                                <span class="hero-badge">
+                                    {{ $image->title }}
+                                </span>
+
+                                <h4>
+                                  {{ $image->description }}
+                                </h4>
+
+                                
+
+                                <a href="{{ route('products.filter') }}" class="btn gradient-btn mt-3">
+                                    Shop Now
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    @endforeach
+
+                </div>
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
 
 <!-- CATEGORY SECTION -->
 <div class="container mt-5">
-  <h4 class="fw-bold mb-3 titles">Shop by Category</h4>
 
-  <div class="row g-3">
-    @foreach($categories as $category)
-    <div class="col-6 col-md-3">
-      <a href="{{ route('products.filter', ['category' => $category->id]) }}"
-         class="text-decoration-none">
+    <h3 class="section-title mb-4">
+        Shop by Category
+    </h3>
 
-        <div class="category-card hover-card">
-  <h6 class="fw-bold">{{ $category->name }}</h6>
-</div>
+    <div class="row g-4">
 
-      </a>
-    </div>
-    @endforeach
-  </div>
-</div>
+        @foreach($categories as $category)
 
-<!-- 🔥 FEATURED PRODUCTS -->
-<div class="container mt-5">
+        <div class="col-6 col-md-4 col-lg-3">
 
-  <h3 class="mb-4 fw-bold titles">🔥 Featured Products</h3>
+            <a href="{{ route('products.filter', ['category' => $category->id]) }}"
+               class="text-decoration-none">
 
-  <div class="row g-4">
+                <div class="premium-category-card">
 
-    @foreach($products as $product)
-    <div class="col-md-4 col-lg-3">
+                    <!-- IMAGE -->
+                    <div class="premium-category-image-wrapper">
 
-      <div class="card h-100 border-0 shadow-sm hover-card">
+                        <img
+                            src="/assets/images/{{$category->image}}"
+                            class="premium-category-image"
+                        >
 
-        <!-- Image -->
-        <img src="/assets/images/{{$product->image}}"
-             class="card-img-top"
-             style="height: 200px; object-fit: cover;">
+                    </div>
 
-        <!-- Body -->
-        <div class="card-body d-flex flex-column">
+                    <!-- CONTENT -->
+                    <div class="premium-category-content">
 
-          <h6 class="fw-bold">{{$product->name}}</h6>
+                        <h5 class="premium-category-title">
+                            {{ $category->name }}
+                        </h5>
 
-          <small class="text-muted mb-2">
-            {{ $product->category->name ?? 'No Category' }}
-          </small>
+                    </div>
 
-          <p class="fw-bold fs-5 text-dark price-text">
-            ${{$product->price}}
-          </p>
+                </div>
 
-          <!-- Stock badge -->
-          @if($product->stock > 0)
-            <span class="badge bg-success mb-2">In Stock</span>
-          @else
-            <span class="badge bg-danger mb-2">Out of Stock</span>
-          @endif
-
-          <a href="{{ route('product.show', $product->id) }}"
-             class="btn btn-outline-primary mt-auto w-100">
-             View Product
-          </a>
+            </a>
 
         </div>
-      </div>
+
+        @endforeach
 
     </div>
-    @endforeach
-
-  </div>
-
-  <!-- Pagination -->
-  <div class="d-flex justify-content-center mt-4">
-    {{ $products->links() }}
-  </div>
 
 </div>
 
-<!-- 🔥 PROMO BANNER -->
-<div class="container mt-5">
-  <div class="promo-banner">
-    <h3>Upgrade Your Tech Today</h3>
-    <p>Best electronics at unbeatable prices</p>
-    <a href="{{ route('products.filter') }}" class="btn">
-      Browse Products
-    </a>
-  </div>
-</div>
+<!-- PRODUCTS -->
+<section class="container mt-5">
 
-<!-- 🔥 WHY US -->
-<div class="container mt-5">
-  <div class="row g-4">
-    <div class="col-md-4">
-      <div class="why-us-card text-center">
-        <span class="why-us-icon">🚚</span>
-        <h5>Fast Delivery</h5>
-        <p>2–5 days shipping</p>
-      </div>
+    <div class="section-header d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+        <div>
+            <h2 class="section-title">Featured Products</h2>
+            <p class="section-subtitle">Best trending electronics</p>
+        </div>
+
+        <a href="{{ route('products.filter') }}" class="btn premium-btn">
+            View All
+        </a>
+
     </div>
-    <div class="col-md-4">
-      <div class="why-us-card text-center">
-        <span class="why-us-icon">💳</span>
-        <h5>Secure Payment</h5>
-        <p>100% safe checkout</p>
-      </div>
+
+    <div class="row g-4 mt-2">
+
+        @foreach($products as $product)
+
+        <div class="col-md-4 col-lg-3">
+
+            <div class="product-card h-100">
+
+                <div class="product-image-wrapper">
+<!-- BEST SELLER -->
+@if($product->best_seller)
+
+    <div class="best-seller-badge">
+
+        🔥 BEST SELLER
+
     </div>
-    <div class="col-md-4">
-      <div class="why-us-card text-center">
-        <span class="why-us-icon">📞</span>
-        <h5>24/7 Support</h5>
-        <p>We're here anytime</p>
-      </div>
+
+@endif
+
+<!-- SALE -->
+@if($product->sale_percent)
+
+    <div class="sale-product-badge">
+
+        -{{$product->sale_percent}}%
+
     </div>
-  </div>
-</div>
+
+@endif
+
+<!-- IMAGE -->
+<img
+    src="/assets/images/{{$product->image}}"
+    class="product-image"
+>
+
+<!-- STOCK -->
+@if($product->stock > 0)
+
+    <span class="stock-badge success-badge">
+
+        In Stock
+
+    </span>
+
+@else
+
+    <span class="stock-badge danger-badge">
+
+        Out Of Stock
+
+    </span>
+
+@endif
+
+                </div>
+
+                <div class="product-content">
+
+                    <small class="product-category">
+                        {{ $product->category->name ?? 'No Category' }}
+                    </small>
+
+                    <h5 class="product-title">
+                        {{$product->name}}
+                    </h5>
+
+                    <div class="product-bottom">
+
+                        @if($product->sale_percent)
+
+    <div class="d-flex align-items-center gap-2 flex-wrap mb-3">
+
+        <!-- OLD PRICE -->
+        <span class="old-price">
+
+            ${{ $product->price }}
+
+        </span>
+
+        <!-- NEW PRICE -->
+        <span class="sale-price">
+
+            ${{
+                number_format(
+                    $product->price -
+                    ($product->price * $product->sale_percent / 100),
+                    2
+                )
+            }}
+
+        </span>
+
+    </div>
+
+@else
+
+    <p class="product-price">
+
+        ${{$product->price}}
+
+    </p>
+
+@endif
+
+                        <a href="{{ route('product.show', $product->id) }}"
+                           class="btn product-btn w-100">
+                            View Product
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+             </div>
+
+        @endforeach
+
+    </div>
+
+    <div class="d-flex justify-content-center mt-5">
+        {{ $products->links() }}
+    </div>
+
+</section>
+
+<!-- BANNER -->
+<section class="container mt-5">
+
+    <div class="premium-banner">
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-7">
+
+                <span class="banner-mini-title">
+                    PREMIUM TECH STORE
+                </span>
+
+                <h2>
+                    Upgrade Your Setup <br>
+                    With Modern Electronics
+                </h2>
+
+                <p>
+                    Discover high-performance devices and accessories built for the future.
+                </p>
+
+                <a href="{{ route('products.filter') }}" class="btn gradient-btn mt-3">
+                    Explore Products
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- WHY US -->
+<section class="container mt-5 mb-5">
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="why-card text-center">
+                <div class="why-icon">🚚</div>
+                <h4>Fast Delivery</h4>
+                <p>Fast and reliable shipping on all orders.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="why-card text-center">
+                <div class="why-icon">💳</div>
+                <h4>Secure Payment</h4>
+                <p>Encrypted checkout for maximum safety.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="why-card text-center">
+                <div class="why-icon">🎧</div>
+                <h4>24/7 Support</h4>
+                <p>Our support team is always here for you.</p>
+            </div>
+        </div>
+
+    </div>
+
+</section>
 
 </x-layout>

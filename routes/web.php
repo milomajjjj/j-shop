@@ -20,8 +20,9 @@ Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name(
 
 Route::post('/chatbot', [MainController::class, 'chatbot'])->name('chatbot');
 
+Route::get('/', [MainController::class, 'landing'])->name('landing');
+Route::get('/home', [MainController::class, 'home'])->name('home');
 
-Route::get('/', [MainController::class, 'home'])->name('home');
 Route::get('/product/{product}', [MainController::class, 'product'])->name('product.show');
 Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
 Route::get('/filter-products', [MainController::class, 'products'])->name('products.filter');
@@ -69,6 +70,7 @@ Route::middleware(['auth' , 'admin'])->group(function(){
     Route::post('/admin/categories/toggle/{category}', [AdminController::class, 'toggleCategory'])->name('admin.categories.toggle');
     Route::get('/admin/orders', [AdminController::class, 'orders'])->name('admin.orders');
     Route::post('/admin/orders/status/{order}', [AdminController::class, 'updateOrderStatus'])->name('admin.orders.status');
+    Route::get('/admin/search', [AdminController::class, 'adminSearch'])->name('admin.search');
 });
    
 

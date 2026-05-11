@@ -25,23 +25,41 @@ class OrderController extends Controller
         'total' => 0
     ]);
 
-    foreach($cart as $id => $item){
+   foreach($cart as $id => $item){
 
-        $subtotal = $item['price'] * $item['quantity'];
-        $total += $subtotal;
+    // FINAL PRICE AFTER SALE
+    $finalPrice = isset($item['sale_percent'])
 
-        $order->items()->create([
-            'order_id' => $order->id,
-            'product_id' => $id,
-            'quantity' => $item['quantity'],
-            'price' => $item['price']
-        ]);
+        ? $item['price'] -
+          ($item['price'] * $item['sale_percent'] / 100)
 
-        //  reduce stock
-        $product = Product::find($id);
-        $product->stock -= $item['quantity'];
-        $product->save();
-    }
+        : $item['price'];
+
+    // SUBTOTAL
+    $subtotal = $finalPrice * $item['quantity'];
+
+    $total += $subtotal;
+
+    // CREATE ORDER ITEM
+    $order->items()->create([
+
+        'order_id' => $order->id,
+
+        'product_id' => $id,
+
+        'quantity' => $item['quantity'],
+
+        'price' => $finalPrice
+
+    ]);
+
+    // REDUCE STOCK
+    $product = Product::find($id);
+
+    $product->stock -= $item['quantity'];
+
+    $product->save();
+}
 
     // update total
     $order->update(['total' => $total]);

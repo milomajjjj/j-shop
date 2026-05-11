@@ -1,103 +1,204 @@
 <x-layout>
 
-<div class="container mt-5">
+<section class="container py-5">
 
-  <!-- Title -->
-  <h2 class="mb-4 fw-bold text-center">Orders Management</h2>
+    <!-- HEADER -->
+    <div class="text-center mb-5">
 
-  @forelse($orders as $order)
+        <h1 class="admin-main-title">
+            Orders Management
+        </h1>
 
-  <div class="card mb-4 shadow-sm border-0">
-
-    <!-- Header -->
-    <div class="card-header bg-white d-flex justify-content-between align-items-center flex-wrap">
-
-      <div class="mb-2 mb-md-0">
-        <strong>Order #{{ $order->id }}</strong>
-
-        <span class="ms-3 text-muted">
-          {{ $order->created_at->format('Y-m-d') }}
-        </span>
-
-        <span class="ms-3">
-          <strong>User:</strong> {{ $order->user->name }}
-        </span>
-      </div>
-
-      <!-- Status -->
-      <div class="d-flex align-items-center gap-2">
-
-        <span class="badge 
-          @if($order->status == 'pending') bg-warning text-dark
-          @elseif($order->status == 'shipped') bg-info text-dark
-          @elseif($order->status == 'delivered') bg-success
-          @elseif($order->status == 'cancelled') bg-danger
-          @endif
-        ">
-          {{ ucfirst($order->status) }}
-        </span>
-
-        <form action="{{ route('admin.orders.status', $order->id) }}" method="POST">
-          @csrf
-          <select name="status"
-                  onchange="if(this.value !== '{{ $order->status }}') this.form.submit()"
-                  class="form-select form-select-sm">
-            <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
-            <option value="shipped" {{ $order->status == 'shipped' ? 'selected' : '' }}>Shipped</option>
-            <option value="delivered" {{ $order->status == 'delivered' ? 'selected' : '' }}>Delivered</option>
-          </select>
-        </form>
-
-      </div>
+        <p class="section-subtitle">
+            Track and manage customer purchases
+        </p>
 
     </div>
 
-    <!-- Body -->
-    <div class="card-body">
+    @forelse($orders as $order)
 
-      <div class="table-responsive">
-        <table class="table table-hover align-middle">
+    <!-- ORDER CARD -->
+    <div class="premium-order-card mb-5">
 
-          <thead class="table-light">
-            <tr>
-              <th>Product</th>
-              <th>Price</th>
-              <th>Qty</th>
-              <th>Total</th>
-            </tr>
-          </thead>
+        <!-- TOP -->
+        <div class="premium-order-header">
 
-          <tbody>
-            @foreach($order->items as $item)
-            <tr>
-              <td class="fw-bold">{{ $item->product->name }}</td>
-              <td>${{ $item->price }}</td>
-              <td>{{ $item->quantity }}</td>
-              <td class="fw-bold">${{ $item->price * $item->quantity }}</td>
-            </tr>
-            @endforeach
-          </tbody>
+            <div class="d-flex flex-wrap gap-4 align-items-center">
 
-        </table>
-      </div>
+                <div>
 
-      <!-- Order Total -->
-      <div class="text-end">
-        <h5 class="fw-bold text-primary">
-          Total: ${{ $order->total }}
-        </h5>
-      </div>
+                    <p class="order-label">
+                        ORDER ID
+                    </p>
+
+                    <h4 class="order-value">
+                        #{{ $order->id }}
+                    </h4>
+
+                </div>
+
+                <div>
+
+                    <p class="order-label">
+                        DATE
+                    </p>
+
+                    <h4 class="order-value">
+                        {{ $order->created_at->format('Y-m-d') }}
+                    </h4>
+
+                </div>
+
+                <div>
+
+                    <p class="order-label">
+                        CUSTOMER
+                    </p>
+
+                    <h4 class="order-value">
+                        {{ $order->user->name }}
+                    </h4>
+
+                </div>
+
+            </div>
+
+            <!-- STATUS -->
+            <div class="d-flex align-items-center gap-3 flex-wrap">
+
+                <!-- BADGE -->
+                <span class="
+                    premium-status-badge
+
+                    @if($order->status == 'pending')
+                        pending-status
+                    @elseif($order->status == 'shipped')
+                        shipped-status
+                    @elseif($order->status == 'delivered')
+                        delivered-status
+                    @elseif($order->status == 'cancelled')
+                        cancelled-status
+                    @endif
+                ">
+
+                    {{ ucfirst($order->status) }}
+
+                </span>
+
+                <!-- SELECT -->
+                <form action="{{ route('admin.orders.status', $order->id) }}"
+                      method="POST">
+
+                    @csrf
+
+                    <select
+                        name="status"
+                        onchange="if(this.value !== '{{ $order->status }}') this.form.submit()"
+                        class="premium-order-select"
+                    >
+
+                        <option value="pending"
+                            {{ $order->status == 'pending' ? 'selected' : '' }}>
+                            Pending
+                        </option>
+
+                        <option value="shipped"
+                            {{ $order->status == 'shipped' ? 'selected' : '' }}>
+                            Shipped
+                        </option>
+
+                        <option value="delivered"
+                            {{ $order->status == 'delivered' ? 'selected' : '' }}>
+                            Delivered
+                        </option>
+
+                    </select>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <!-- TABLE -->
+        <div class="table-responsive">
+
+            <table class="table premium-orders-table align-middle">
+
+                <thead>
+
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach($order->items as $item)
+
+                    <tr>
+
+                        <td class="fw-bold">
+                            {{ $item->product->name }}
+                        </td>
+
+                        <td>
+                            ${{ $item->price }}
+                        </td>
+
+                        <td>
+                            {{ $item->quantity }}
+                        </td>
+
+                        <td class="fw-bold">
+                            ${{ $item->price * $item->quantity }}
+                        </td>
+
+                    </tr>
+
+                    @endforeach
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <!-- TOTAL -->
+        <div class="premium-order-total text-end">
+
+            <span class="total-label">
+                Order Total
+            </span>
+
+            <h2 class="total-price">
+                ${{ $order->total }}
+            </h2>
+
+        </div>
 
     </div>
 
-  </div>
+    @empty
 
-  @empty
-    <div class="text-center text-muted">
-      No orders yet.
+    <div class="empty-products text-center">
+
+        <h3>
+            No Orders Yet
+        </h3>
+
+        <p>
+            Orders will appear here once customers purchase.
+        </p>
+
     </div>
-  @endforelse
 
-</div>
+    @endforelse
+
+</section>
 
 </x-layout>
